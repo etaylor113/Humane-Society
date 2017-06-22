@@ -10,6 +10,9 @@ namespace HumaneSociety
     {
         static void Main(string[] args)
         {
+            MainPage mainPage = new MainPage();
+            mainPage.RunMainMenu();
+
         }
     }
 }

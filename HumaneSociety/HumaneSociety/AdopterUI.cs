@@ -8,5 +8,12 @@ namespace HumaneSociety
 {
     class Adopter
     {
+
+        public static void RunAdopterMenu()
+        {
+
+        }
+
+
     }
 }
