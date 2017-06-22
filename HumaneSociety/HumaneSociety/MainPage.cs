@@ -8,21 +8,33 @@ namespace HumaneSociety
 {
     class MainPage
     {
-        
+        AdopterUI adopterUI = new AdopterUI();
+        EmployeeUI employeeUI = new EmployeeUI();
 
         public void RunMainMenu()
         {
-            Console.WriteLine("Welcome to the humane society! \nPlease enter your status. \n'1' - Adopter \n'2' - Employee");
-            int decision = Int32.Parse(Console.ReadLine());
-            switch (decision)
+            try
             {
-                case 1:
-                    Adopter.RunAdopterMenu();
-                    break;
-                case 2:
-                    Employee.RunEmployeeMenu();
-                    break;
+                Console.WriteLine("Welcome to the humane society! \nPlease enter your status. \n'1' - Adopter \n'2' - Employee");
+                int decision = Int32.Parse(Console.ReadLine());
+                Console.Clear();
+                switch (decision)
+                {
+                    case 1:
+                        adopterUI.RunAdopterMenu();
+                        break;
+                    case 2:
+                        employeeUI.RunEmployeeMenu();
+                        break;
+                    default:
+                        RunMainMenu();
+                        break;
+                }
             }
+            catch
+            {
+                RunMainMenu();
+            }           
         }
 
 

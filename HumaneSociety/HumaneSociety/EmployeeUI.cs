@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace HumaneSociety
 {
-    public static class Employee
+    public  class EmployeeUI
     {
 
-        public static void RunEmployeeMenu()
+        public void RunEmployeeMenu()
         {
 
         }
