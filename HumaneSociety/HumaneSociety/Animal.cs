@@ -1,11 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Linq.Mapping;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace HumaneSociety
 {
+
+    [Table(Name = "Animals")]
+    public class Animals
+    {
+
+    }
+
+
+
     public class Animal
     {
         public string animalName;

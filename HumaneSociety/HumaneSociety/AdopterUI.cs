@@ -9,14 +9,16 @@ namespace HumaneSociety
     public class AdopterUI
     {
 
-        public string adopterFullName;
+        public string adopterFirstName;
+        public string adopterLastName;
         public int classMenuChoice;
         public bool refineSearch = false;
         public string adopterBio;
 
         public AdopterUI()
         {
-            adopterFullName = "";
+            adopterFirstName = "";
+            adopterLastName = "";
             classMenuChoice = 0;
             adopterBio = "";
         }
@@ -34,22 +36,27 @@ namespace HumaneSociety
 
         }
 
-        public string GetName()
+        public void GetName()
+        {          
+                Console.WriteLine("You must create a profile before adopting a humane society animal. ");
+                
+                              
+                                                                    
+        }
+
+        public string GetFirstName()
         {
-            try
-            {
-                Console.WriteLine("You must create a profile before adopting a humane society animal. \nPlease enter your first name: \n");
-                string adopterFirstName = Console.ReadLine();
-                Console.WriteLine("\nPlease enter your last name:");
-                string adopterLastName = Console.ReadLine();
-                adopterFullName = adopterFirstName + adopterLastName;
-                Console.Clear();
-            }
-            catch
-            {
-                GetName();
-            }           
-            return adopterFullName;
+            Console.WriteLine("\nPlease enter your first name: \n");
+            string adopterFirstName = Console.ReadLine();
+            return adopterFirstName;
+                      
+        }
+
+        public string GetLastName()
+        {
+            Console.WriteLine("\nPlease enter your last name:");
+            string adopterLastName = Console.ReadLine();
+            return adopterLastName;
         }
 
         public string GetBio()
@@ -104,7 +111,7 @@ namespace HumaneSociety
 
         public void SearchByOrder()
         {
-            Console.WriteLine("These are the types of animals currently available for adoption.");
+            Console.WriteLine("Would you like to select a pet to adopt or refine your search results? \n'1' - Select a pet \n'2' - Refine search results");
             int decision = Int32.Parse(Console.ReadLine());
             switch (classMenuChoice)
             {
@@ -131,7 +138,7 @@ namespace HumaneSociety
         {
             try
             {
-                Console.WriteLine("Would you like to select a pet do adopt from here or refine your search results? \n'1' - Select a pet \n'2' - Refine search results");
+                Console.WriteLine("Would you like to select a pet to adopt or refine your search results? \n'1' - Select a pet \n'2' - Refine search results");
                 int decision = Int32.Parse(Console.ReadLine());
                 switch (decision)
                 {
@@ -140,6 +147,7 @@ namespace HumaneSociety
                         break;
                     case 2:
                         SearchByOrder();
+
                         break;
                     default:
                         ContinueMenu();
