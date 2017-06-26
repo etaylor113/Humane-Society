@@ -31,8 +31,9 @@ namespace HumaneSociety
                         break;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e.Message);
                 RunMainMenu();
             }           
         }

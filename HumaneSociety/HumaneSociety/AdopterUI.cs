@@ -8,15 +8,16 @@ namespace HumaneSociety
 {
     public class AdopterUI
     {
-       
 
+        HumaneSocietyEntities db = new HumaneSocietyEntities();
+        Adopter adopter = new Adopter();
         public string adopterFirstName;
         public string adopterLastName;
         public string userAddress;
         public string contactNumber;
         public string petPreference;
         public string adopterBio;
-        public int classMenuChoice;
+        public int navCounter;
         public bool refineSearch;
 
         public AdopterUI()
@@ -27,35 +28,37 @@ namespace HumaneSociety
             contactNumber = "";
             petPreference = "";
             adopterBio = "";
-            classMenuChoice = 0;
+            navCounter = 0;
             refineSearch = false;
         }
 
 
         public void RunAdopterMenu()
-        {
-            GetFirstName();
-            GetLastName();
-            GetAddress();
-            GetContactNumber();
-            GetPetPreference();
-            GetBio();
+        {                       
+            adopter.First_Name = GetFirstName();
+            adopter.Last_Name = GetLastName();
+            adopter.User_Address = GetAddress();
+            adopter.Contact_Number = GetContactNumber();
+            adopter.Pet_Preference = GetPetPreference();
+            adopter.User_Bio = GetBio();            
+            db.Adopters.Add(adopter);
+            db.SaveChanges();
             CompleteAccount();
 
             SearchByClass();
+            SearchByOrder();
             if (refineSearch == true)
             {
-                SearchByOrder();
+                SearchByClass();
             }
         }
-
 
         public string GetFirstName()
         {
             Console.WriteLine("You must create a profile before adopting a humane society animal. ");
             Console.WriteLine("\nPlease enter your first name: \n");
             string adopterFirstName = Console.ReadLine();
-            return adopterFirstName;                    
+            return adopterFirstName;
         }
 
         public string GetLastName()
@@ -77,7 +80,7 @@ namespace HumaneSociety
         public string GetContactNumber()
         {
             Console.WriteLine("\nPlease enter a contact number:");
-            contactNumber = Console.ReadLine();
+            contactNumber = Console.ReadLine().ToString();
             Console.Clear();
             return contactNumber;
         }
@@ -97,10 +100,10 @@ namespace HumaneSociety
             Console.Clear();
             return adopterBio;
         }
-
+      
         public void CompleteAccount()
         {
-            Console.WriteLine("\nProfile completed. Continue to search for animals.");
+            Console.WriteLine("\nProfile completed. Press enter to search for animals.");
             Console.ReadLine();
             Console.Clear();
         }
@@ -115,18 +118,15 @@ namespace HumaneSociety
                 switch (searchClass)
                 {
                     case 1:
-                        classMenuChoice = 1;
-
+                        //linq sql
                         ContinueMenu();
                         break;
                     case 2:
-                        classMenuChoice = 2;
-
+                        //linq sql
                         ContinueMenu();
                         break;
                     case 3:
-                        classMenuChoice = 3;
-
+                        //linq sql
                         ContinueMenu();
                         break;
                     default:
@@ -138,37 +138,31 @@ namespace HumaneSociety
             {
                 SearchByClass();
             }
-            Console.Clear();
         }
 
         public void SearchByOrder()
         {
             Console.WriteLine("\nWould you like to select a pet to adopt or refine your search results? \n'1' - Select a pet \n'2' - Refine search results");
             int decision = Int32.Parse(Console.ReadLine());
-            Console.Clear();
-            refineSearch = false;
-            switch (classMenuChoice)
+            switch (decision)
             {
                 case 1:
-
+                    //linq sql
                     break;
                 case 2:
-
+                    ContinueMenu();
                     break;
-                case 3:
-
-                    break;
-
             }
+            Console.Clear();
+            refineSearch = false;
         }
 
         public void SearchBySpecies()
         {
             Console.WriteLine("\nSelect a pet to adopt.");
-            int decision = Int32.Parse(Console.ReadLine());
+            //linq sql
             Console.Clear();
             refineSearch = false;
-            
         }
 
 
@@ -184,11 +178,10 @@ namespace HumaneSociety
                 switch (decision)
                 {
                     case 1:
-
+                        AdoptPet();
                         break;
                     case 2:
-                        SearchByOrder();
-
+                        refineSearch = true;
                         break;
                     default:
                         ContinueMenu();
@@ -201,8 +194,11 @@ namespace HumaneSociety
             }
         }
 
-
-
+        public void AdoptPet()
+        {
+            Console.WriteLine("Here is a list of available pets to adopt.");
+            Console.Read();
+        }
 
 
 
