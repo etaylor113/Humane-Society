@@ -19,12 +19,12 @@ namespace HumaneSociety
         public string Animal_Class { get; set; }
         public string Animal_Order { get; set; }
         public string Animal_Species { get; set; }
-        public Nullable<int> Room_Number { get; set; }
-        public Nullable<bool> Adoption_Status { get; set; }      
+        public int Room_Number { get; set; }
+        public bool Adoption_Status { get; set; }
         public string Food_Type { get; set; }
-        public Nullable<int> Amount_Food_Week { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<bool> Vaccinations { get; set; }
+        public int Amount_Food_Week { get; set; }
+        public decimal Price { get; set; }
+        public bool Vaccinations { get; set; }
         public string Personality { get; set; }
     }
 }

@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="289ac2fe080d479a98a11f17c1e72f0e" Name="Diagram1">
         <EntityTypeShape EntityType="HumaneSocietyModel.Adopter" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HumaneSocietyModel.Animal" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HumaneSocietyModel.Animal" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

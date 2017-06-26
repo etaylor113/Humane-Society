@@ -10,10 +10,12 @@ namespace HumaneSociety
     public class EmployeeUI
     {
         
-        HumaneSocietyEntities db = new HumaneSocietyEntities();
+        HumaneSocietyEntities humanSocietydb = new HumaneSocietyEntities();
         Animal animal = new Animal();
         public bool adoptedStatus;
         public bool vaccinationStatus;
+        public string convertAdoptionStatus;
+        public string convertVaccinationStatus;
         public void RunEmployeeMenu()
         {
             try
@@ -48,23 +50,25 @@ namespace HumaneSociety
         }
 
         public void ViewAllPets()
-        {          
+        {
+            
             Console.WriteLine("Below are all current animals registered at the humane society.\n");
-            foreach (Animal row in db.Animals)
+            foreach (Animal row in humanSocietydb.Animals)
             {
-                Console.WriteLine("----------------------");
-                foreach (var item in db.Animals)
+                
+                foreach (var item in humanSocietydb.Animals)
                 {
+                    Console.WriteLine("----------------------");
                     Console.WriteLine(item.Name);
                     Console.WriteLine(item.ID);
                     Console.WriteLine(item.Animal_Class);
                     Console.WriteLine(item.Animal_Order);
                     Console.WriteLine(item.Animal_Species);
-                    Console.WriteLine(item.Adoption_Status);
+                    ConvertAdoptionToString();
                     Console.WriteLine(item.Price);
                     Console.WriteLine(item.Room_Number);
                     Console.WriteLine(item.Personality);
-                    Console.WriteLine(item.Vaccinations);
+                    ConvertVaccinationToString();
                     Console.WriteLine(item.Food_Type);
                     Console.WriteLine(item.Amount_Food_Week);
                 }
@@ -78,6 +82,30 @@ namespace HumaneSociety
             //linq sql
         }
    
+        public void ConvertAdoptionToString()
+        {
+            if (animal.Adoption_Status == true)
+            {
+                Console.WriteLine("Yes");
+            }
+            else if (animal.Adoption_Status == false)
+            {
+                Console.WriteLine("No");
+            }
+                
+        }
+
+        public void ConvertVaccinationToString()
+        {
+            if (animal.Vaccinations == true)
+            {
+                Console.WriteLine("Yes");
+            }
+            else if (animal.Vaccinations == false)
+            {
+                Console.WriteLine("No");
+            }
+        }
         public void AddAdoptee()
         {            
                        
@@ -92,9 +120,9 @@ namespace HumaneSociety
             animal.Food_Type = AddFoodType();
             animal.Amount_Food_Week = AddAmountFoodWeek();
             animal.Price = AddPrice();
-            animal.Personality = AddPersonality();           
-            db.Animals.Add(animal);
-            db.SaveChanges();
+            animal.Personality = AddPersonality();
+            humanSocietydb.Animals.Add(animal);
+            humanSocietydb.SaveChanges();
             ConfirmAnimal();
         }
 
