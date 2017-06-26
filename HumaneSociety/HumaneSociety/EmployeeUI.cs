@@ -12,6 +12,7 @@ namespace HumaneSociety
         
         HumaneSocietyEntities humanSocietydb = new HumaneSocietyEntities();
         Animal animal = new Animal();
+        Adopter adopter = new Adopter();
         public bool adoptedStatus;
         public bool vaccinationStatus;
         public string convertAdoptionStatus;
@@ -33,8 +34,7 @@ namespace HumaneSociety
                         ViewAllPets();
                         break;
                     case 3:
-                        ViewUserProfile();
-                          
+                        ViewUserProfile();                          
                         break;
                     default:
                         RunEmployeeMenu();
@@ -79,9 +79,22 @@ namespace HumaneSociety
         public void ViewUserProfile()
         {
             Console.WriteLine("Below are a list of all current humane society users.\n");
-            //linq sql
+            
+
+                foreach (var adopter in humanSocietydb.Adopters)
+                {
+                    Console.WriteLine("\n-----------------------");
+                    Console.WriteLine("ID: " + adopter.ID);
+                    Console.WriteLine("First Name: " + adopter.First_Name);
+                    Console.WriteLine("Last Name: " + adopter.Last_Name);
+                    Console.WriteLine("Address: " + adopter.User_Address);
+                    Console.WriteLine("Contact Number: " + adopter.Contact_Number);
+                    Console.WriteLine("Pet Preference: " + adopter.Pet_Preference);
+                    Console.WriteLine("Bio: " + adopter.User_Bio);
+                }          
+            Console.Read();
         }
-   
+
         public void ConvertAdoptionToString()
         {
             if (animal.Adoption_Status == true)
@@ -91,8 +104,7 @@ namespace HumaneSociety
             else if (animal.Adoption_Status == false)
             {
                 Console.WriteLine("Adoption Status: Not adopted");
-            }
-                
+            }               
         }
 
         public void ConvertVaccinationToString()
@@ -106,9 +118,9 @@ namespace HumaneSociety
                 Console.WriteLine("Vaccination Status: Not vaccinated");
             }
         }
+
         public void AddAdoptee()
-        {            
-                       
+        {                                 
             Console.WriteLine("Fill out preceding adoptee information to input into the database.");          
             animal.Name = AddName();
             animal.Animal_Class = AddClass();
