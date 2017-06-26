@@ -56,21 +56,21 @@ namespace HumaneSociety
             foreach (Animal row in humanSocietydb.Animals)
             {
                 
-                foreach (var item in humanSocietydb.Animals)
+                foreach (var animal in humanSocietydb.Animals)
                 {
                     Console.WriteLine("----------------------");
-                    Console.WriteLine(item.Name);
-                    Console.WriteLine(item.ID);
-                    Console.WriteLine(item.Animal_Class);
-                    Console.WriteLine(item.Animal_Order);
-                    Console.WriteLine(item.Animal_Species);
+                    Console.WriteLine("Name: " + animal.Name);
+                    Console.WriteLine("ID: " + animal.ID);
+                    Console.WriteLine("Animal Class: " + animal.Animal_Class);
+                    Console.WriteLine("Animal Order: " + animal.Animal_Order);
+                    Console.WriteLine("Animal Species: " + animal.Animal_Species);
                     ConvertAdoptionToString();
-                    Console.WriteLine(item.Price);
-                    Console.WriteLine(item.Room_Number);
-                    Console.WriteLine(item.Personality);
+                    Console.WriteLine("Price: " + animal.Price);
+                    Console.WriteLine("Room Number: " + animal.Room_Number);
+                    Console.WriteLine("Personality: " + animal.Personality);
                     ConvertVaccinationToString();
-                    Console.WriteLine(item.Food_Type);
-                    Console.WriteLine(item.Amount_Food_Week);
+                    Console.WriteLine("Food Type: " + animal.Food_Type);
+                    Console.WriteLine("Amount Food per Week: " + animal.Amount_Food_Week);
                 }
             }
             Console.Read();
@@ -86,11 +86,11 @@ namespace HumaneSociety
         {
             if (animal.Adoption_Status == true)
             {
-                Console.WriteLine("Yes");
+                Console.WriteLine("Adoption Status: Adopted");
             }
             else if (animal.Adoption_Status == false)
             {
-                Console.WriteLine("No");
+                Console.WriteLine("Adoption Status: Not adopted");
             }
                 
         }
@@ -99,11 +99,11 @@ namespace HumaneSociety
         {
             if (animal.Vaccinations == true)
             {
-                Console.WriteLine("Yes");
+                Console.WriteLine("Vaccination Status: Vaccinated");
             }
             else if (animal.Vaccinations == false)
             {
-                Console.WriteLine("No");
+                Console.WriteLine("Vaccination Status: Not vaccinated");
             }
         }
         public void AddAdoptee()
