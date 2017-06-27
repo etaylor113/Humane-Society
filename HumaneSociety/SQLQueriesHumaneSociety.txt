@@ -1,0 +1,27 @@
+create table Animal
+(
+ID int IDENTITY(1,1) Primary key,
+Name varchar(max) NOT NULL,
+Animal_Class varchar(50) NOT NULL,
+Animal_Order varchar(50) NOT NULL,
+Animal_Species varchar(50) NOT NULL,
+Room_Number int NOT NULL,
+Adoption_Status bit NOT NULL,
+Food_Type varchar(max) NOT NULL,
+Amount_Food_Week int NOT NULL,
+Price decimal NOT NULL,
+Vaccinations bit NOT NULL,
+Personality varchar(max) NOT NULL,
+);
+
+
+create table Adopter
+(
+ID int IDENTITY(1,1) Primary key,
+First_Name varchar(max) NOT NULL,
+Last_Name varchar (max) NOT NULL,
+User_Address varchar (max) NOT NULL,
+Contact_Number varchar (max) NOT NULL,
+Pet_Preference varchar (max) NOT NULL,
+User_Bio varchar (max) NOT NULL,
+);
