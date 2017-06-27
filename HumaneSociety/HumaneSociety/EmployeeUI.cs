@@ -21,7 +21,8 @@ namespace HumaneSociety
         {
             try
             {
-                Console.WriteLine("Type number for command. \n'1' - Add adoptee \n'2' - View all animals \n'3' - View User Profiles");
+                Console.Clear();
+                Console.WriteLine("Type number for command. \n'1' - Add adoptee \n'2' - Update information \n'3' - View all animals \n'4' - View User Profiles");
                 int menuChoice = Int32.Parse(Console.ReadLine());
                 Console.Clear();
                 
@@ -31,10 +32,13 @@ namespace HumaneSociety
                         AddAdoptee();
                         break;
                     case 2:
-                        ViewAllPets();
+                        UpdateInformation();
                         break;
                     case 3:
-                        ViewUserProfile();                          
+                        ViewAllPets();
+                        break;
+                    case 4:
+                        ViewUserProfile();
                         break;
                     default:
                         RunEmployeeMenu();
@@ -44,14 +48,13 @@ namespace HumaneSociety
             catch(Exception e)
             {
                 Console.WriteLine(e.Message);
-                RunEmployeeMenu();
                 Console.Clear();
+                RunEmployeeMenu();                
             }
         }
 
         public void ViewAllPets()
-        {
-            
+        {            
             Console.WriteLine("Below are all current animals registered at the humane society.\n");                       
                 foreach (var animal in humanSocietydb.Animals)
                 {
@@ -70,13 +73,12 @@ namespace HumaneSociety
                     Console.WriteLine("Amount Food per Week: " + animal.Amount_Food_Week);
                 }           
             Console.Read();
+            RunEmployeeMenu();
         }
 
         public void ViewUserProfile()
         {
-            Console.WriteLine("Below are a list of all current humane society users.\n");
-            
-
+            Console.WriteLine("Below are a list of all current humane society users.\n");            
                 foreach (var adopter in humanSocietydb.Adopters)
                 {
                     Console.WriteLine("\n-----------------------");
@@ -89,6 +91,7 @@ namespace HumaneSociety
                     Console.WriteLine("Bio: " + adopter.User_Bio);
                 }          
             Console.Read();
+            RunEmployeeMenu();
         }
 
         public void ConvertAdoptionToString()
@@ -132,6 +135,71 @@ namespace HumaneSociety
             humanSocietydb.Animals.Add(animal);
             humanSocietydb.SaveChanges();
             ConfirmAnimal();
+            RunEmployeeMenu();
+        }
+
+        public void UpdateInformation()
+        {          
+            Console.WriteLine("What would you like to update? \n'1' - Adoption status \n'2' - Vaccination status");
+            int updateStatus = Int32.Parse(Console.ReadLine());
+            switch (updateStatus)
+            {
+                case 1:
+                    UpdateAdoptionStatus();
+                    break;
+                case 2:
+                    UpdateVaccinationStatus();
+                    break;
+                default:
+                    UpdateInformation();
+                    break;
+            }
+        }
+
+        public void UpdateAdoptionStatus()
+        {
+            Console.WriteLine("Please type the ID of the animal you want to update.");
+            int animalID = Int32.Parse(Console.ReadLine());
+            var adoptionStatus =
+                from animal in humanSocietydb.Animals
+                where animal.ID == animalID
+                select animal;
+            foreach (var animal in adoptionStatus)
+            {
+                if (animal.Adoption_Status == true)
+                {
+                    animal.Adoption_Status = false;
+                }
+                else if (animal.Adoption_Status == false)
+                {
+                    animal.Adoption_Status = true;
+                }
+            }
+            Console.WriteLine("Adoption status changed to " + animal.Adoption_Status);
+            RunEmployeeMenu();
+        }
+
+        public void UpdateVaccinationStatus()
+        {
+            Console.WriteLine("Please type the ID of the animal you want to update.");
+            int animalID = Int32.Parse(Console.ReadLine());
+            var vaccinationStatus =
+                from animal in humanSocietydb.Animals
+                where animal.ID == animalID
+                select animal;
+            foreach (var animal in vaccinationStatus)
+            {
+                if (animal.Vaccinations == true)
+                {
+                    animal.Vaccinations = false;
+                }
+                else if (animal.Vaccinations == false)
+                {
+                    animal.Vaccinations = true;
+                }
+            }
+            Console.WriteLine("Vaccination status has been changed to " + animal.Vaccinations);
+            RunEmployeeMenu();
         }
 
         public string AddName()
