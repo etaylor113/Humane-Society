@@ -52,10 +52,7 @@ namespace HumaneSociety
         public void ViewAllPets()
         {
             
-            Console.WriteLine("Below are all current animals registered at the humane society.\n");
-            foreach (Animal row in humanSocietydb.Animals)
-            {
-                
+            Console.WriteLine("Below are all current animals registered at the humane society.\n");                       
                 foreach (var animal in humanSocietydb.Animals)
                 {
                     Console.WriteLine("----------------------");
@@ -71,8 +68,7 @@ namespace HumaneSociety
                     ConvertVaccinationToString();
                     Console.WriteLine("Food Type: " + animal.Food_Type);
                     Console.WriteLine("Amount Food per Week: " + animal.Amount_Food_Week);
-                }
-            }
+                }           
             Console.Read();
         }
 

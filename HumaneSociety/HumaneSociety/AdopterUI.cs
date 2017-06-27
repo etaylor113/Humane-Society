@@ -9,8 +9,9 @@ namespace HumaneSociety
     public class AdopterUI
     {
 
-        HumaneSocietyEntities db = new HumaneSocietyEntities();
+        HumaneSocietyEntities humaneSocietydb = new HumaneSocietyEntities();
         Adopter adopter = new Adopter();
+
         public string adopterFirstName;
         public string adopterLastName;
         public string userAddress;
@@ -34,23 +35,42 @@ namespace HumaneSociety
 
 
         public void RunAdopterMenu()
-        {                       
-            adopter.First_Name = GetFirstName();
-            adopter.Last_Name = GetLastName();
-            adopter.User_Address = GetAddress();
-            adopter.Contact_Number = GetContactNumber();
-            adopter.Pet_Preference = GetPetPreference();
-            adopter.User_Bio = GetBio();            
-            db.Adopters.Add(adopter);
-            db.SaveChanges();
-            CompleteAccount();
+        {
+            Console.WriteLine("Are you already a member? Type number to continue. \n'1' - Sign up \n'2' - Skip to search");
+            int response = Int32.Parse(Console.ReadLine());
+            if (response == 1)
+            {
+                adopter.First_Name = GetFirstName();
+                adopter.Last_Name = GetLastName();
+                adopter.User_Address = GetAddress();
+                adopter.Contact_Number = GetContactNumber();
+                adopter.Pet_Preference = GetPetPreference();
+                adopter.User_Bio = GetBio();
+                humaneSocietydb.Adopters.Add(adopter);
+                humaneSocietydb.SaveChanges();
+                CompleteAccount();
+                SkipToSearch();
+                Console.Clear();
+            }
+            else if (response == 2)
+            {
+                SkipToSearch();
+            }
+        }
 
+        public void SkipToSearch()
+        {
             SearchByClass();
-            SearchByOrder();
+            if (refineSearch == true)
+            {
+                SearchByOrder();
+            }
+
             if (refineSearch == true)
             {
                 SearchByClass();
             }
+            Console.Clear();
         }
 
         public string GetFirstName()
@@ -100,7 +120,7 @@ namespace HumaneSociety
             Console.Clear();
             return adopterBio;
         }
-      
+
         public void CompleteAccount()
         {
             Console.WriteLine("\nProfile completed. Press enter to search for animals.");
@@ -118,15 +138,15 @@ namespace HumaneSociety
                 switch (searchClass)
                 {
                     case 1:
-                        //linq sql
+                        SearchForMammals();
                         ContinueMenu();
                         break;
                     case 2:
-                        //linq sql
+                        SearchForBirds();
                         ContinueMenu();
                         break;
                     case 3:
-                        //linq sql
+                        SearchForReptiles();
                         ContinueMenu();
                         break;
                     default:
@@ -165,8 +185,36 @@ namespace HumaneSociety
             refineSearch = false;
         }
 
+        public void SearchForMammals()
+        {
+            Console.WriteLine("Below are all available animals for adoption: \n");
+            var mammals =
+                from animals in humaneSocietydb.Animals
+                where animals.Adoption_Status == false
+                 && animals.Animal_Class == "Mammal"
+                select new
+                {
+                    animals.Name,
+                    animals.Personality,
+                    animals.Price,
+                    animals.Animal_Order,
+                    animals.Animal_Species
+                };                
+            foreach (var mammal in mammals)
+            {
+                Console.WriteLine(mammal + "\n");
+            }
+        }
 
+        public void SearchForBirds()
+        {
 
+        }
+
+        public void SearchForReptiles()
+        {
+
+        }
 
         public void ContinueMenu()
         {
