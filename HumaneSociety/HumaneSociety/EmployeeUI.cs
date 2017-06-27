@@ -20,7 +20,7 @@ namespace HumaneSociety
         public void RunEmployeeMenu()
         {
             try
-            {
+            {               
                 Console.Clear();
                 Console.WriteLine("Type number for command. \n'1' - Add adoptee \n'2' - Update information \n'3' - View all animals \n'4' - View User Profiles");
                 int menuChoice = Int32.Parse(Console.ReadLine());

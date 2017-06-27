@@ -35,7 +35,6 @@ namespace HumaneSociety
             animalPrice = 0;
         }
 
-
         public void RunAdopterMenu()
         {
             Console.WriteLine("Are you already a member? Type number to continue. \n'1' - Sign up \n'2' - Skip to search");
@@ -291,7 +290,7 @@ namespace HumaneSociety
             var smallAnimals =
                 from animals in humaneSocietydb.Animals
                 where animals.Adoption_Status == false
-                 && animals.Animal_Order == "Small Animals"
+                 && animals.Animal_Order == "Small Animal"
                 select new
                 {
                     animals.ID,
