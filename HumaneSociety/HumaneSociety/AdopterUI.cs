@@ -11,7 +11,7 @@ namespace HumaneSociety
 
         HumaneSocietyEntities humaneSocietydb = new HumaneSocietyEntities();
         Adopter adopter = new Adopter();
-
+        Animal animal = new Animal();
         public string adopterFirstName;
         public string adopterLastName;
         public string userAddress;
@@ -19,7 +19,7 @@ namespace HumaneSociety
         public string petPreference;
         public string adopterBio;
         public int navCounter;
-
+        public int selectedPet;
 
         public AdopterUI()
         {
@@ -30,6 +30,7 @@ namespace HumaneSociety
             petPreference = "";
             adopterBio = "";
             navCounter = 1;
+            selectedPet = 0;
         }
 
 
@@ -173,7 +174,7 @@ namespace HumaneSociety
                     SearchByOrder();
                         break;
             }
-            ContinueMenu();
+            SelectAPet();           
         }
        
 
@@ -186,6 +187,7 @@ namespace HumaneSociety
                  && animals.Animal_Class == "Mammal"
                 select new
                 {
+                    animals.ID,
                     animals.Name,
                     animals.Personality,
                     animals.Price,
@@ -206,6 +208,7 @@ namespace HumaneSociety
                 && animals.Animal_Class == "Bird"
                select new
                {
+                   animals.ID,
                    animals.Name,
                    animals.Personality,
                    animals.Price,
@@ -226,6 +229,7 @@ namespace HumaneSociety
                 && animals.Animal_Class == "Reptile"
                select new
                {
+                   animals.ID,
                    animals.Name,
                    animals.Personality,
                    animals.Price,
@@ -246,6 +250,7 @@ namespace HumaneSociety
                  && animals.Animal_Order == "Dog"
                 select new
                 {
+                    animals.ID,
                     animals.Name,
                     animals.Personality,
                     animals.Price,
@@ -266,6 +271,7 @@ namespace HumaneSociety
                  && animals.Animal_Order == "Cat"
                 select new
                 {
+                    animals.ID,
                     animals.Name,
                     animals.Personality,
                     animals.Price,
@@ -286,6 +292,7 @@ namespace HumaneSociety
                  && animals.Animal_Order == "Small Animals"
                 select new
                 {
+                    animals.ID,
                     animals.Name,
                     animals.Personality,
                     animals.Price,
@@ -330,13 +337,30 @@ namespace HumaneSociety
 
         public void SelectAPet()
         {
-            Console.WriteLine("Here is a list of available pets to adopt. \nPlease type ID of pet to adopt.");
-            int selectedPet = Int32.Parse(Console.ReadLine());
+            Console.WriteLine(" \nPlease type ID of pet to adopt.");
+            selectedPet = Int32.Parse(Console.ReadLine());
+            AddSelectedPet();
+        }
+
+        public void AddSelectedPet()
+        {
+
+            ConfirmAdoptPet();
         }
 
         public void ConfirmAdoptPet()
         {
-            Console.WriteLine("You have selected " + " to adopt!");
+            var adoptee =
+                from animals in humaneSocietydb.Animals
+                where animals.ID == selectedPet
+                select animals.Name;
+            foreach(var pet in adoptee)
+            {
+                Console.WriteLine("You have selected " + pet + " to adopt! \nPress 'enter' to exit");
+                Console.Read();
+                Environment.Exit(0);
+           }
+          
         }
    
 
