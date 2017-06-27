@@ -20,6 +20,7 @@ namespace HumaneSociety
         public string adopterBio;
         public int navCounter;
         public int selectedPet;
+        public decimal animalPrice;
 
         public AdopterUI()
         {
@@ -31,6 +32,7 @@ namespace HumaneSociety
             adopterBio = "";
             navCounter = 1;
             selectedPet = 0;
+            animalPrice = 0;
         }
 
 
@@ -138,11 +140,11 @@ namespace HumaneSociety
                         break;
                     case 2:
                         SearchForBirds();
-                        ContinueMenu();
+                        SelectAPet();
                         break;
                     case 3:
                         SearchForReptiles();
-                        ContinueMenu();
+                        SelectAPet();
                         break;
                     default:
                         SearchByClass();
@@ -329,8 +331,9 @@ namespace HumaneSociety
                         break;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 ContinueMenu();
             }
         }
@@ -339,15 +342,9 @@ namespace HumaneSociety
         {
             Console.WriteLine(" \nPlease type ID of pet to adopt.");
             selectedPet = Int32.Parse(Console.ReadLine());
-            AddSelectedPet();
-        }
-
-        public void AddSelectedPet()
-        {
-
             ConfirmAdoptPet();
         }
-
+      
         public void ConfirmAdoptPet()
         {
             var adoptee =
@@ -356,11 +353,45 @@ namespace HumaneSociety
                 select animals.Name;
             foreach(var pet in adoptee)
             {
-                Console.WriteLine("You have selected " + pet + " to adopt! \nPress 'enter' to exit");
+                Console.WriteLine("You have selected " + pet + " to adopt! \nPress enter to continue to payment options");
                 Console.Read();
-                Environment.Exit(0);
-           }
-          
+                GetPetPrice();
+                PayForAdoptee();
+           }          
+        }
+
+        public decimal GetPetPrice()
+        {
+            var price =
+                 from animals in humaneSocietydb.Animals
+                 where animals.ID == selectedPet
+                 select animals.Price;
+            foreach(var number in price)
+            {
+                animalPrice = number;
+            }
+            return animalPrice;
+        }
+
+        public void PayForAdoptee()
+        {
+            Console.Clear();
+            Console.WriteLine("Pet price is $" + animalPrice + ". Is this okay? \n'Yes'-(Pay) \n'No' -(exit)");
+            string confirm = Console.ReadLine();
+            switch (confirm)
+            {
+                case "Yes":
+                    Console.WriteLine("You have paid $" + animalPrice + ". Thank you for adopting one of our animals! \nPress enter to exit.");
+                    Console.ReadLine();
+                    Environment.Exit(0);
+                    break;
+                case "No":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    PayForAdoptee();
+                    break;
+            }
         }
    
 
