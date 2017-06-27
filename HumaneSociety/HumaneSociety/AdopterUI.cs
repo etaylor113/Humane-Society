@@ -19,7 +19,7 @@ namespace HumaneSociety
         public string petPreference;
         public string adopterBio;
         public int navCounter;
-        public bool refineSearch;
+
 
         public AdopterUI()
         {
@@ -29,8 +29,7 @@ namespace HumaneSociety
             contactNumber = "";
             petPreference = "";
             adopterBio = "";
-            navCounter = 0;
-            refineSearch = false;
+            navCounter = 1;
         }
 
 
@@ -61,14 +60,9 @@ namespace HumaneSociety
         public void SkipToSearch()
         {
             SearchByClass();
-            if (refineSearch == true)
+            if (navCounter == 1)
             {
                 SearchByOrder();
-            }
-
-            if (refineSearch == true)
-            {
-                SearchByClass();
             }
             Console.Clear();
         }
@@ -162,28 +156,26 @@ namespace HumaneSociety
 
         public void SearchByOrder()
         {
-            Console.WriteLine("\nWould you like to select a pet to adopt or refine your search results? \n'1' - Select a pet \n'2' - Refine search results");
+            Console.WriteLine("\nWould you like to see a list of... \n'1' - Dogs \n'2' - Cats \n'3' - Small Animals");
             int decision = Int32.Parse(Console.ReadLine());
             switch (decision)
             {
                 case 1:
-                    //linq sql
+                    SearchByDogs();
                     break;
                 case 2:
-                    ContinueMenu();
+                    SearchByCats();
                     break;
+                case 3:
+                    SearchBySmallAnimals();
+                    break;
+                default:
+                    SearchByOrder();
+                        break;
             }
-            Console.Clear();
-            refineSearch = false;
+            ContinueMenu();
         }
-
-        public void SearchBySpecies()
-        {
-            Console.WriteLine("\nSelect a pet to adopt.");
-            //linq sql
-            Console.Clear();
-            refineSearch = false;
-        }
+       
 
         public void SearchForMammals()
         {
@@ -208,13 +200,104 @@ namespace HumaneSociety
 
         public void SearchForBirds()
         {
-
+            var birds =
+               from animals in humaneSocietydb.Animals
+               where animals.Adoption_Status == false
+                && animals.Animal_Class == "Bird"
+               select new
+               {
+                   animals.Name,
+                   animals.Personality,
+                   animals.Price,
+                   animals.Animal_Order,
+                   animals.Animal_Species
+               };
+            foreach (var bird in birds)
+            {
+                Console.WriteLine(bird + "\n");
+            }
         }
 
         public void SearchForReptiles()
         {
-
+            var reptiles =
+               from animals in humaneSocietydb.Animals
+               where animals.Adoption_Status == false
+                && animals.Animal_Class == "Reptile"
+               select new
+               {
+                   animals.Name,
+                   animals.Personality,
+                   animals.Price,
+                   animals.Animal_Order,
+                   animals.Animal_Species
+               };
+            foreach (var reptile in reptiles)
+            {
+                Console.WriteLine(reptile + "\n");
+            }
         }
+
+        public void SearchByDogs()
+        {
+            var dogs =
+                from animals in humaneSocietydb.Animals
+                where animals.Adoption_Status == false
+                 && animals.Animal_Order == "Dog"
+                select new
+                {
+                    animals.Name,
+                    animals.Personality,
+                    animals.Price,
+                    animals.Animal_Order,
+                    animals.Animal_Species
+                };
+            foreach (var dog in dogs)
+            {
+                Console.WriteLine(dog + "\n");
+            }
+        }
+
+        public void SearchByCats()
+        {
+            var cats =
+                from animals in humaneSocietydb.Animals
+                where animals.Adoption_Status == false
+                 && animals.Animal_Order == "Cat"
+                select new
+                {
+                    animals.Name,
+                    animals.Personality,
+                    animals.Price,
+                    animals.Animal_Order,
+                    animals.Animal_Species
+                };
+            foreach (var cat in cats)
+            {
+                Console.WriteLine(cat + "\n");
+            }
+        }
+
+        public void SearchBySmallAnimals()
+        {
+            var smallAnimals =
+                from animals in humaneSocietydb.Animals
+                where animals.Adoption_Status == false
+                 && animals.Animal_Order == "Small Animals"
+                select new
+                {
+                    animals.Name,
+                    animals.Personality,
+                    animals.Price,
+                    animals.Animal_Order,
+                    animals.Animal_Species
+                };
+            foreach (var smallAnimal in smallAnimals)
+            {
+                Console.WriteLine(smallAnimal + "\n");
+            }
+        }
+
 
         public void ContinueMenu()
         {
@@ -226,10 +309,13 @@ namespace HumaneSociety
                 switch (decision)
                 {
                     case 1:
-                        AdoptPet();
+                        SelectAPet();
                         break;
                     case 2:
-                        refineSearch = true;
+                        if (navCounter == 1)
+                        {
+                            SearchByOrder();                           
+                        }                       
                         break;
                     default:
                         ContinueMenu();
@@ -242,13 +328,17 @@ namespace HumaneSociety
             }
         }
 
-        public void AdoptPet()
+        public void SelectAPet()
         {
-            Console.WriteLine("Here is a list of available pets to adopt.");
-            Console.Read();
+            Console.WriteLine("Here is a list of available pets to adopt. \nPlease type ID of pet to adopt.");
+            int selectedPet = Int32.Parse(Console.ReadLine());
         }
 
-
+        public void ConfirmAdoptPet()
+        {
+            Console.WriteLine("You have selected " + " to adopt!");
+        }
+   
 
     }
 }
