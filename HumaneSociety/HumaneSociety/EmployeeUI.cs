@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Linq.SqlClient;
+using System.IO;
 
 namespace HumaneSociety
 {
     public class EmployeeUI
     {
-        
+
         HumaneSocietyEntities humanSocietydb = new HumaneSocietyEntities();
         Animal animal = new Animal();
         Adopter adopter = new Adopter();
@@ -20,12 +21,12 @@ namespace HumaneSociety
         public void RunEmployeeMenu()
         {
             try
-            {               
+            {
                 Console.Clear();
-                Console.WriteLine("Type number for command. \n'1' - Add adoptee \n'2' - Update information \n'3' - View all animals \n'4' - View User Profiles");
+                Console.WriteLine("Type number for command. \n'1' - Add adoptee \n'2' - Update information \n'3' - View all animals \n'4' - View User Profiles \n'5' - Import CSV file");
                 int menuChoice = Int32.Parse(Console.ReadLine());
                 Console.Clear();
-                
+
                 switch (menuChoice)
                 {
                     case 1:
@@ -40,56 +41,59 @@ namespace HumaneSociety
                     case 4:
                         ViewUserProfile();
                         break;
+                    case 5:
+                        ImportCSVFile();
+                        break;
                     default:
                         RunEmployeeMenu();
                         break;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.Clear();
-                RunEmployeeMenu();                
+                RunEmployeeMenu();
             }
         }
 
         public void ViewAllPets()
-        {            
-            Console.WriteLine("Below are all current animals registered at the humane society.\n");                       
-                foreach (var animal in humanSocietydb.Animals)
-                {
-                    Console.WriteLine("----------------------");
-                    Console.WriteLine("Name: " + animal.Name);
-                    Console.WriteLine("ID: " + animal.ID);
-                    Console.WriteLine("Animal Class: " + animal.Animal_Class);
-                    Console.WriteLine("Animal Order: " + animal.Animal_Order);
-                    Console.WriteLine("Animal Species: " + animal.Animal_Species);
-                    ConvertAdoptionToString();
-                    Console.WriteLine("Price: " + animal.Price);
-                    Console.WriteLine("Room Number: " + animal.Room_Number);
-                    Console.WriteLine("Personality: " + animal.Personality);
-                    ConvertVaccinationToString();
-                    Console.WriteLine("Food Type: " + animal.Food_Type);
-                    Console.WriteLine("Amount Food per Week: " + animal.Amount_Food_Week);
-                }           
+        {
+            Console.WriteLine("Below are all current animals registered at the humane society.\n");
+            foreach (var animal in humanSocietydb.Animals)
+            {
+                Console.WriteLine("----------------------");
+                Console.WriteLine("Name: " + animal.Name);
+                Console.WriteLine("ID: " + animal.ID);
+                Console.WriteLine("Animal Class: " + animal.Animal_Class);
+                Console.WriteLine("Animal Order: " + animal.Animal_Order);
+                Console.WriteLine("Animal Species: " + animal.Animal_Species);
+                ConvertAdoptionToString();
+                Console.WriteLine("Price: " + animal.Price);
+                Console.WriteLine("Room Number: " + animal.Room_Number);
+                Console.WriteLine("Personality: " + animal.Personality);
+                ConvertVaccinationToString();
+                Console.WriteLine("Food Type: " + animal.Food_Type);
+                Console.WriteLine("Amount Food per Week: " + animal.Amount_Food_Week);
+            }
             Console.Read();
             RunEmployeeMenu();
         }
 
         public void ViewUserProfile()
         {
-            Console.WriteLine("Below are a list of all current humane society users.\n");            
-                foreach (var adopter in humanSocietydb.Adopters)
-                {
-                    Console.WriteLine("\n-----------------------");
-                    Console.WriteLine("ID: " + adopter.ID);
-                    Console.WriteLine("First Name: " + adopter.First_Name);
-                    Console.WriteLine("Last Name: " + adopter.Last_Name);
-                    Console.WriteLine("Address: " + adopter.User_Address);
-                    Console.WriteLine("Contact Number: " + adopter.Contact_Number);
-                    Console.WriteLine("Pet Preference: " + adopter.Pet_Preference);
-                    Console.WriteLine("Bio: " + adopter.User_Bio);
-                }          
+            Console.WriteLine("Below are a list of all current humane society users.\n");
+            foreach (var adopter in humanSocietydb.Adopters)
+            {
+                Console.WriteLine("\n-----------------------");
+                Console.WriteLine("ID: " + adopter.ID);
+                Console.WriteLine("First Name: " + adopter.First_Name);
+                Console.WriteLine("Last Name: " + adopter.Last_Name);
+                Console.WriteLine("Address: " + adopter.User_Address);
+                Console.WriteLine("Contact Number: " + adopter.Contact_Number);
+                Console.WriteLine("Pet Preference: " + adopter.Pet_Preference);
+                Console.WriteLine("Bio: " + adopter.User_Bio);
+            }
             Console.Read();
             RunEmployeeMenu();
         }
@@ -103,7 +107,7 @@ namespace HumaneSociety
             else if (animal.Adoption_Status == false)
             {
                 Console.WriteLine("Adoption Status: Not adopted");
-            }               
+            }
         }
 
         public void ConvertVaccinationToString()
@@ -119,8 +123,8 @@ namespace HumaneSociety
         }
 
         public void AddAdoptee()
-        {                                 
-            Console.WriteLine("Fill out preceding adoptee information to input into the database.");          
+        {
+            Console.WriteLine("Fill out preceding adoptee information to input into the database.");
             animal.Name = AddName();
             animal.Animal_Class = AddClass();
             animal.Animal_Order = AddOrder();
@@ -139,7 +143,7 @@ namespace HumaneSociety
         }
 
         public void UpdateInformation()
-        {          
+        {
             Console.WriteLine("What would you like to update? \n'1' - Adoption status \n'2' - Vaccination status");
             int updateStatus = Int32.Parse(Console.ReadLine());
             switch (updateStatus)
@@ -203,10 +207,10 @@ namespace HumaneSociety
         }
 
         public string AddName()
-        {           
+        {
             Console.WriteLine("\nPlease type adoptee name:");
-            return Console.ReadLine();           
-        }      
+            return Console.ReadLine();
+        }
 
         public string AddClass()
         {
@@ -233,7 +237,7 @@ namespace HumaneSociety
         }
 
         public bool AddAdoptionStatus()
-        {           
+        {
             Console.WriteLine("\nType adoption status: \n'Yes' - Adopted \n'No' - Not Adopted");
             string response = Console.ReadLine();
             switch (response)
@@ -269,7 +273,7 @@ namespace HumaneSociety
             }
             return vaccinationStatus;
         }
-    
+
         public string AddFoodType()
         {
             Console.WriteLine("\nType animal's food type: (Example: Kibble, Canned, Lettuce)");
@@ -300,6 +304,50 @@ namespace HumaneSociety
             Console.Read();
         }
 
+
+        public void ImportCSVFile()
+        {
+            IEnumerable<string> csvLines;
+            Console.WriteLine("Please type file path below: \n");
+            string filePath = Console.ReadLine();
+            csvLines = File.ReadAllLines(filePath);
+
+            var query =
+       from csvLine 
+       in csvLines
+       where !String.IsNullOrWhiteSpace(csvLine)
+       let data = csvLine.Split(',')
+       select new
+       {
+           ID = data[0],
+           name = data[1],
+           animalClass = data[2],
+           animalOrder = data[3],
+           roomNumber = data[4],
+           adoptionStatus = data[5],
+           foodType = data[6],
+           amountFood = data[7],
+           price = data[8],
+           vaccination = data[9],
+           personality = data[10]
+       };
+            foreach (var data in query)
+            {
+                animal.ID = Convert.ToInt32(data.ID);
+                animal.Name = data.name;
+                animal.Animal_Class = data.animalClass;
+                animal.Animal_Order = data.animalOrder;
+                animal.Room_Number = Convert.ToInt32(data.roomNumber);
+                animal.Adoption_Status = Convert.ToBoolean(data.adoptionStatus);
+                animal.Food_Type = data.foodType;
+                animal.Amount_Food_Week = Convert.ToInt32(data.amountFood);
+                animal.Price = Convert.ToDecimal(data.price);
+                animal.Vaccinations = Convert.ToBoolean(data.vaccination);
+                animal.Personality = data.personality;
+                humanSocietydb.Animals.Add(animal);
+                humanSocietydb.SaveChanges();
+            }
+        }
 
 
 
